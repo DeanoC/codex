@@ -1,0 +1,23 @@
+{
+  "case_name": "v0.111.0-json-no-pty",
+  "codex_cli_version": "0.111.0",
+  "disable_collaboration_modes": true,
+  "event_count": 12,
+  "handoff_reason": "codex_timeout_after_210s",
+  "harness_exit_code": 1,
+  "json_events": true,
+  "json_events_detected": true,
+  "last_agent_message": "I have the exact ten locations, ten items, and three puzzle identities now. I\u2019m doing one small targeted metadata check for workspace/service fields that got truncated, then I\u2019ll write `game.py`, `game_manifest.json`, `walkthrough.txt`, and `README.md` in one generation step.",
+  "last_completed_item_type": "command_execution",
+  "last_event_type": "item.completed",
+  "machine_independence_ok": false,
+  "reliability_ok": false,
+  "resolved_codex_version": "0.111.0",
+  "selected_auth_mode": "existing_login",
+  "stall_stage": "after_tool_result",
+  "turn_completed": 0,
+  "usage_skipped_reason": "codex_timeout_after_210s",
+  "use_pty": false,
+  "validation_ok": false,
+  "validation_reason": "codex_timeout_after_210s"
+}

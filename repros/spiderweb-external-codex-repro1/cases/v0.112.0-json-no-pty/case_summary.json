@@ -1,0 +1,23 @@
+{
+  "case_name": "v0.112.0-json-no-pty",
+  "codex_cli_version": "0.112.0",
+  "disable_collaboration_modes": true,
+  "event_count": 8,
+  "handoff_reason": "codex_idle_after_90s",
+  "harness_exit_code": 1,
+  "json_events": true,
+  "json_events_detected": true,
+  "last_agent_message": "I\u2019ve got the exact seeds now: 10 fixed locations, 10 fixed items, 3 named puzzles, and the required victory text. Next I\u2019m writing all four deliverables in one shot with a deterministic map and a walkthrough that solves the game from a clean start.",
+  "last_completed_item_type": "agent_message",
+  "last_event_type": "item.started",
+  "machine_independence_ok": false,
+  "reliability_ok": false,
+  "resolved_codex_version": "0.112.0",
+  "selected_auth_mode": "existing_login",
+  "stall_stage": "after_agent_message",
+  "turn_completed": 0,
+  "usage_skipped_reason": "codex_idle_after_90s",
+  "use_pty": false,
+  "validation_ok": false,
+  "validation_reason": "codex_idle_after_90s"
+}

@@ -1,0 +1,243 @@
+{
+  "access_summary": {
+    "allowed_local_runtime": {
+      "count": 0,
+      "samples": []
+    },
+    "host_local": {
+      "count": 1107,
+      "samples": [
+        "/safe/Safe/wizball-codex",
+        "/safe",
+        "/safe/Safe",
+        "/tmp/tmp.2gKhz8ZJR9/home/.local/bin/bash",
+        "/home/deano/.local/bin/bash",
+        "/home/deano/.bash_profile",
+        "/home/deano/.bash_login",
+        "/home/deano/.profile",
+        "/home/deano/.bashrc",
+        "/home/deano/bin"
+      ]
+    },
+    "mounted_remote_node": {
+      "count": 3,
+      "samples": [
+        "/tmp/tmp.2gKhz8ZJR9/mount/shared_data/world_seed.json",
+        "/tmp/tmp.2gKhz8ZJR9/mount/shared_data/items_seed.json",
+        "/tmp/tmp.2gKhz8ZJR9/mount/shared_data/puzzle_seed.json"
+      ]
+    },
+    "mounted_workspace": {
+      "count": 388,
+      "samples": [
+        "/tmp/tmp.2gKhz8ZJR9/mount",
+        "/tmp/tmp.2gKhz8ZJR9/mount/apply_patch",
+        "/tmp/tmp.2gKhz8ZJR9/mount/codex-execve-wrapper",
+        "/tmp/tmp.2gKhz8ZJR9/mount/.lock",
+        "/tmp/tmp.2gKhz8ZJR9/mount/applypatch",
+        "/tmp/tmp.2gKhz8ZJR9/mount/codex-linux-sandbox",
+        "/tmp/tmp.2gKhz8ZJR9/mount/nodes",
+        "/tmp/tmp.2gKhz8ZJR9/mount/nodes/local",
+        "/tmp/tmp.2gKhz8ZJR9/mount/nodes/local/fs",
+        "/tmp/tmp.2gKhz8ZJR9/mount/nodes/local/fs/.git"
+      ]
+    },
+    "system_runtime": {
+      "count": 3387,
+      "samples": [
+        "/usr/bin/bash",
+        "/etc/ld.so.preload",
+        "/etc/ld.so.cache",
+        "/lib/x86_64-linux-gnu/libtinfo.so.6",
+        "/lib/x86_64-linux-gnu/libc.so.6",
+        "/dev/tty",
+        "/usr/lib/locale/locale-archive",
+        "/usr/share/locale/locale.alias",
+        "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION",
+        "/usr/lib/locale/C.utf8/LC_IDENTIFICATION"
+      ]
+    }
+  },
+  "candidate_venom_gaps": [
+    {
+      "observed_paths": [
+        "/home/deano/.npm-global/bin/codex",
+        "/home/deano/.local/bin/node",
+        "/usr/local/bin/node",
+        "/usr/bin/node",
+        "/home/deano/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex/codex"
+      ],
+      "reason": "Plain Codex CLI and/or Node runtime executed locally instead of coming from the mounted Spiderweb environment.",
+      "service_available": null,
+      "venom_id": "codex_runtime"
+    },
+    {
+      "observed_paths": [
+        "/home/deano/.codex/.env",
+        "/home/deano/.codex/tmp/arg0",
+        "/home/deano/.codex/tmp/arg0/codex-arg0DKiPUN",
+        "/home/deano/.codex/tmp/arg0/codex-arg0DKiPUN/.lock",
+        "/home/deano/.codex/tmp/arg0/codex-arg0dpgTUl"
+      ],
+      "reason": "Codex touched host home/config paths even though a home surface was mounted.",
+      "service_available": true,
+      "venom_id": "codex_home"
+    },
+    {
+      "observed_paths": [
+        "/usr/bin/bash",
+        "/usr/bin/id",
+        "/usr/bin/run-parts",
+        "/usr/bin/cat",
+        "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/git"
+      ],
+      "reason": "Codex executed host shell/coreutils commands even though a terminal surface was mounted.",
+      "service_available": true,
+      "venom_id": "terminal_runtime"
+    },
+    {
+      "observed_paths": [
+        "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/git",
+        "/home/deano/.local/bin/git",
+        "/usr/local/bin/git",
+        "/usr/bin/git",
+        "/tmp/tmp.2gKhz8ZJR9/.git"
+      ],
+      "reason": "Codex used host-local git commands or metadata even though a git surface was mounted.",
+      "service_available": true,
+      "venom_id": "git_runtime"
+    }
+  ],
+  "disallowed_writes": [
+    "/home/deano/.codex",
+    "/home/deano/.codex/tmp/arg0",
+    "/home/deano/.codex/tmp/arg0/codex-arg0DKiPUN/.lock",
+    "/home/deano/.codex/tmp/arg0/codex-arg0DKiPUN",
+    "/home/deano/.codex/tmp/arg0/codex-arg0dpgTUl/.lock",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/.lock",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/apply_patch",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/applypatch",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/codex-linux-sandbox",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/codex-execve-wrapper",
+    "/home/deano/.codex/skills",
+    "/home/deano/.codex/cache/codex_apps_tools",
+    "/home/deano/.codex/cache/codex_apps_tools/494c8ef984c83413075be46e1845abd145e1c9d1.json",
+    "/home/deano/.codex/shell_snapshots/019ce1a9-de76-75a0-baa4-0dddc2183c9f.tmp-1773312533548264660",
+    "/home/deano/.codex/shell_snapshots",
+    "/home/deano/.codex/shell_snapshots/019ce1a9-de76-75a0-baa4-0dddc2183c9f.sh",
+    "/home/deano/.codex/models_cache.json",
+    "/home/deano/.codex/shell_snapshots/019ce19f-ef82-7ac2-b3fb-41c4b005a808.sh",
+    "/home/deano/.codex/state_5.sqlite",
+    "/home/deano/.codex/state_5.sqlite-wal",
+    "/home/deano/.codex/state_5.sqlite-shm"
+  ],
+  "executed_commands": [
+    "/usr/bin/bash",
+    "/usr/bin/id",
+    "/usr/bin/run-parts",
+    "/usr/bin/cat",
+    "/home/deano/.npm-global/bin/codex",
+    "/home/deano/.local/bin/node",
+    "/usr/local/bin/node",
+    "/usr/bin/node",
+    "/home/deano/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex/codex",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/git",
+    "/home/deano/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/path/git",
+    "/home/deano/.local/bin/git",
+    "/usr/local/bin/git",
+    "/usr/bin/git",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/lsb_release",
+    "/home/deano/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/path/lsb_release",
+    "/home/deano/.local/bin/lsb_release",
+    "/usr/local/bin/lsb_release",
+    "/usr/bin/lsb_release",
+    "/usr/bin/getopt",
+    "/usr/bin/cut",
+    "/usr/bin/tr",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/getconf",
+    "/home/deano/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/path/getconf",
+    "/home/deano/.local/bin/getconf",
+    "/usr/local/bin/getconf",
+    "/usr/bin/getconf",
+    "/bin/bash",
+    "/usr/bin/awk",
+    "/usr/bin/sed",
+    "/usr/bin/wc",
+    "/usr/bin/python3"
+  ],
+  "machine_independence_ok": false,
+  "mode": "live",
+  "mounted_services": [
+    "agents",
+    "chat",
+    "events",
+    "fs",
+    "git",
+    "github_pr",
+    "home",
+    "jobs",
+    "library",
+    "missions",
+    "mounts",
+    "pr_review",
+    "search_code",
+    "terminal",
+    "thoughts",
+    "venom_packages",
+    "web_search",
+    "workers",
+    "workspaces"
+  ],
+  "ok": false,
+  "project_id": "proj-1",
+  "reliability_ok": false,
+  "skipped_reason": "codex_timeout_after_210s",
+  "venom_packages": [
+    "agents",
+    "chat",
+    "events",
+    "fs",
+    "git",
+    "github_pr",
+    "home",
+    "jobs",
+    "library",
+    "memory",
+    "missions",
+    "mounts",
+    "pr_review",
+    "search_code",
+    "sub_brains",
+    "terminal",
+    "thoughts",
+    "venom_packages",
+    "web_search",
+    "workers",
+    "workspaces"
+  ],
+  "writes_outside_mount": [
+    "/home/deano/.codex",
+    "/home/deano/.codex/tmp/arg0",
+    "/home/deano/.codex/tmp/arg0/codex-arg0DKiPUN/.lock",
+    "/home/deano/.codex/tmp/arg0/codex-arg0DKiPUN",
+    "/home/deano/.codex/tmp/arg0/codex-arg0dpgTUl/.lock",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/.lock",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/apply_patch",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/applypatch",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/codex-linux-sandbox",
+    "/home/deano/.codex/tmp/arg0/codex-arg08tLHvM/codex-execve-wrapper",
+    "/home/deano/.codex/skills",
+    "/home/deano/.codex/cache/codex_apps_tools",
+    "/home/deano/.codex/cache/codex_apps_tools/494c8ef984c83413075be46e1845abd145e1c9d1.json",
+    "/home/deano/.codex/shell_snapshots/019ce1a9-de76-75a0-baa4-0dddc2183c9f.tmp-1773312533548264660",
+    "/home/deano/.codex/shell_snapshots",
+    "/home/deano/.codex/shell_snapshots/019ce1a9-de76-75a0-baa4-0dddc2183c9f.sh",
+    "/home/deano/.codex/models_cache.json",
+    "/home/deano/.codex/shell_snapshots/019ce19f-ef82-7ac2-b3fb-41c4b005a808.sh",
+    "/home/deano/.codex/state_5.sqlite",
+    "/home/deano/.codex/state_5.sqlite-wal",
+    "/home/deano/.codex/state_5.sqlite-shm"
+  ]
+}

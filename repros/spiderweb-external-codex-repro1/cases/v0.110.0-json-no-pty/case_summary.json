@@ -1,0 +1,23 @@
+{
+  "case_name": "v0.110.0-json-no-pty",
+  "codex_cli_version": "0.110.0",
+  "disable_collaboration_modes": true,
+  "event_count": 7,
+  "handoff_reason": "codex_idle_after_90s",
+  "harness_exit_code": 1,
+  "json_events": true,
+  "json_events_detected": true,
+  "last_agent_message": "I have the service mount picture now. I\u2019m pulling the rest of the ordered inputs so I can map the exact 10 locations, 10 items, and puzzle definitions into the game state without extra repo reads.",
+  "last_completed_item_type": "agent_message",
+  "last_event_type": "item.completed",
+  "machine_independence_ok": false,
+  "reliability_ok": false,
+  "resolved_codex_version": "0.110.0",
+  "selected_auth_mode": "existing_login",
+  "stall_stage": "after_agent_message",
+  "turn_completed": 0,
+  "usage_skipped_reason": "codex_idle_after_90s",
+  "use_pty": false,
+  "validation_ok": false,
+  "validation_reason": "codex_idle_after_90s"
+}

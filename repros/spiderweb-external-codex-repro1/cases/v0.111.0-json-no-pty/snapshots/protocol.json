@@ -1,0 +1,1 @@
+{"channel":"acheron","version":"acheron-1","ops":["t_version","t_attach","t_walk","t_open","t_read","t_write","t_stat","t_clunk","t_flush"]}

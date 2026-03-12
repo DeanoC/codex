@@ -1,0 +1,49 @@
+{
+  "event_count": 7,
+  "event_types": {
+    "item.completed": 4,
+    "item.started": 1,
+    "thread.started": 1,
+    "turn.started": 1
+  },
+  "events_log": {
+    "bytes": 24247,
+    "exists": true,
+    "updated_at_epoch_ms": 1773312949276
+  },
+  "item_types": {
+    "agent_message": 3,
+    "command_execution": 2
+  },
+  "json_events_detected": true,
+  "last_agent_message": "I have the service mount picture now. I\u2019m pulling the rest of the ordered inputs so I can map the exact 10 locations, 10 items, and puzzle definitions into the game state without extra repo reads.",
+  "last_completed_item": {
+    "id": "item_3",
+    "text": "I have the service mount picture now. I\u2019m pulling the rest of the ordered inputs so I can map the exact 10 locations, 10 items, and puzzle definitions into the game state without extra repo reads.",
+    "type": "agent_message"
+  },
+  "last_event": {
+    "item_id": "item_3",
+    "item_type": "agent_message",
+    "text": "I have the service mount picture now. I\u2019m pulling the rest of the ordered inputs so I can map the exact 10 locations, 10 items, and puzzle definitions into the game state without extra repo reads.",
+    "type": "item.completed"
+  },
+  "last_usage": null,
+  "parse_error_count": 0,
+  "parse_errors": [],
+  "stall_stage": "after_agent_message",
+  "stderr_log": {
+    "bytes": 0,
+    "exists": true,
+    "updated_at_epoch_ms": 1773312879554
+  },
+  "stderr_tail": [],
+  "thread_id": "019ce1af-7450-70a0-b7bd-ea88cfff579e",
+  "transcript_log": {
+    "bytes": 0,
+    "exists": false,
+    "updated_at_epoch_ms": null
+  },
+  "turn_completed": 0,
+  "turn_started": 1
+}

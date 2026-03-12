@@ -1,0 +1,115 @@
+{
+  "bundle_dir": "/tmp/spiderweb-external-codex-repro1",
+  "cases": [
+    {
+      "case_name": "v0.110.0-json-no-pty",
+      "codex_cli_version": "0.110.0",
+      "disable_collaboration_modes": true,
+      "event_count": 7,
+      "handoff_reason": "codex_idle_after_90s",
+      "harness_exit_code": 1,
+      "json_events": true,
+      "json_events_detected": true,
+      "last_agent_message": "I have the service mount picture now. I\u2019m pulling the rest of the ordered inputs so I can map the exact 10 locations, 10 items, and puzzle definitions into the game state without extra repo reads.",
+      "last_completed_item_type": "agent_message",
+      "last_event_type": "item.completed",
+      "last_started_item_type": "agent_message",
+      "selected_auth_mode": "existing_login",
+      "stall_stage": "after_agent_message",
+      "turn_completed": 0,
+      "use_pty": false
+    },
+    {
+      "case_name": "v0.111.0-json-no-pty",
+      "codex_cli_version": "0.111.0",
+      "disable_collaboration_modes": true,
+      "event_count": 12,
+      "handoff_reason": "codex_timeout_after_210s",
+      "harness_exit_code": 1,
+      "json_events": true,
+      "json_events_detected": true,
+      "last_agent_message": "I have the exact ten locations, ten items, and three puzzle identities now. I\u2019m doing one small targeted metadata check for workspace/service fields that got truncated, then I\u2019ll write `game.py`, `game_manifest.json`, `walkthrough.txt`, and `README.md` in one generation step.",
+      "last_completed_item_type": "command_execution",
+      "last_event_type": "item.completed",
+      "last_started_item_type": "command_execution",
+      "selected_auth_mode": "existing_login",
+      "stall_stage": "after_tool_result",
+      "turn_completed": 0,
+      "use_pty": false
+    },
+    {
+      "case_name": "v0.111.0-json-pty",
+      "codex_cli_version": "0.111.0",
+      "disable_collaboration_modes": true,
+      "event_count": 18,
+      "handoff_reason": "codex_timeout_after_210s",
+      "harness_exit_code": 1,
+      "json_events": true,
+      "json_events_detected": true,
+      "last_agent_message": "I have the world, item, and puzzle seeds. I\u2019m doing one last tiny metadata extraction for the mount summary, then I\u2019ll write `game.py`, `game_manifest.json`, `walkthrough.txt`, and `README.md` together.",
+      "last_completed_item_type": "agent_message",
+      "last_event_type": "item.completed",
+      "last_started_item_type": "agent_message",
+      "selected_auth_mode": "existing_login",
+      "stall_stage": "after_agent_message",
+      "turn_completed": 0,
+      "use_pty": true
+    },
+    {
+      "case_name": "v0.112.0-json-no-pty",
+      "codex_cli_version": "0.112.0",
+      "disable_collaboration_modes": true,
+      "event_count": 8,
+      "handoff_reason": "codex_idle_after_90s",
+      "harness_exit_code": 1,
+      "json_events": true,
+      "json_events_detected": true,
+      "last_agent_message": "I\u2019ve got the exact seeds now: 10 fixed locations, 10 fixed items, 3 named puzzles, and the required victory text. Next I\u2019m writing all four deliverables in one shot with a deterministic map and a walkthrough that solves the game from a clean start.",
+      "last_completed_item_type": "agent_message",
+      "last_event_type": "item.started",
+      "last_started_item_type": "todo_list",
+      "selected_auth_mode": "existing_login",
+      "stall_stage": "after_agent_message",
+      "turn_completed": 0,
+      "use_pty": false
+    }
+  ],
+  "include_strace": false,
+  "included_case_names": [
+    "v0.110.0-json-no-pty",
+    "v0.111.0-json-no-pty",
+    "v0.111.0-json-pty",
+    "v0.112.0-json-no-pty"
+  ],
+  "missing_case_names": [],
+  "repo_root": "/safe/Safe/wizball-codex/Spiderweb-finalstack",
+  "requested_case_names": [
+    "v0.110.0-json-no-pty",
+    "v0.111.0-json-no-pty",
+    "v0.111.0-json-pty",
+    "v0.112.0-json-no-pty"
+  ],
+  "source_dirs": [
+    "/tmp/spiderweb-external-codex-matrix1",
+    "/tmp/spiderweb-external-codex-matrix2",
+    "/tmp/spiderweb-external-codex-matrix3"
+  ],
+  "source_summaries": [
+    "source_summaries/spiderweb-external-codex-matrix1-matrix_summary.json",
+    "source_summaries/spiderweb-external-codex-matrix1-matrix_summary.md",
+    "source_summaries/spiderweb-external-codex-matrix2-matrix_summary.json",
+    "source_summaries/spiderweb-external-codex-matrix2-matrix_summary.md",
+    "source_summaries/spiderweb-external-codex-matrix3-matrix_summary.json",
+    "source_summaries/spiderweb-external-codex-matrix3-matrix_summary.md"
+  ],
+  "system_info": {
+    "captured_at": "2026-03-12T13:17:56+02:00",
+    "git_commit": "c2b636dd47e3c2ea7e3a02f8a773502c3b82c7ad",
+    "git_dirty": true,
+    "git_status": "M CODEX_EXTERNAL_AGENT.md\n M install.sh\n M src/server_piai.zig\n M test-env/Makefile\n M test-env/README.md\n?? test-env/codex-assets/\n?? test-env/package-external-codex-repro.sh\n?? test-env/test-external-codex-cli-matrix.sh\n?? test-env/test-external-codex-workspace.sh",
+    "node_version": "v22.22.0",
+    "npm_version": "10.9.4",
+    "platform": "Linux-6.12.63+deb13-amd64-x86_64-with-glibc2.41",
+    "python_version": "3.13.5"
+  }
+}
