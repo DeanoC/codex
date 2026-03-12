@@ -40,6 +40,7 @@ use crate::exec_events::Usage;
 use crate::exec_events::WebSearchItem;
 use codex_core::config::Config;
 use codex_protocol::models::WebSearchAction;
+use codex_protocol::items::TurnItem as ProtocolTurnItem;
 use codex_protocol::plan_tool::StepStatus;
 use codex_protocol::plan_tool::UpdatePlanArgs;
 use codex_protocol::protocol;
@@ -121,13 +122,15 @@ impl EventProcessorWithJsonOutput {
             protocol::EventMsg::SessionConfigured(ev) => self.handle_session_configured(ev),
             protocol::EventMsg::ThreadNameUpdated(_) => Vec::new(),
             protocol::EventMsg::AgentMessage(ev) => self.handle_agent_message(ev),
+            protocol::EventMsg::ItemStarted(ev) => self.handle_turn_item_started(ev),
             protocol::EventMsg::ItemCompleted(protocol::ItemCompletedEvent {
-                item: codex_protocol::items::TurnItem::Plan(item),
+                item: ProtocolTurnItem::Plan(item),
                 ..
             }) => {
                 self.last_proposed_plan = Some(item.text.clone());
                 Vec::new()
             }
+            protocol::EventMsg::ItemCompleted(ev) => self.handle_turn_item_completed(ev),
             protocol::EventMsg::AgentReasoning(ev) => self.handle_reasoning_event(ev),
             protocol::EventMsg::ExecCommandBegin(ev) => self.handle_exec_command_begin(ev),
             protocol::EventMsg::ExecCommandEnd(ev) => self.handle_exec_command_end(ev),
@@ -411,6 +414,35 @@ impl EventProcessorWithJsonOutput {
         };
 
         vec![ThreadEvent::ItemCompleted(ItemCompletedEvent { item })]
+    }
+
+    fn thread_item_from_turn_item(&self, item: &ProtocolTurnItem) -> Option<ThreadItem> {
+        match item {
+            ProtocolTurnItem::Reasoning(reasoning) => {
+                let text = if !reasoning.summary_text.is_empty() {
+                    reasoning.summary_text.join("\n")
+                } else {
+                    reasoning.raw_content.join("\n")
+                };
+                Some(ThreadItem {
+                    id: reasoning.id.clone(),
+                    details: ThreadItemDetails::Reasoning(ReasoningItem { text }),
+                })
+            }
+            _ => None,
+        }
+    }
+
+    fn handle_turn_item_started(&self, ev: &protocol::ItemStartedEvent) -> Vec<ThreadEvent> {
+        self.thread_item_from_turn_item(&ev.item)
+            .map(|item| vec![ThreadEvent::ItemStarted(ItemStartedEvent { item })])
+            .unwrap_or_default()
+    }
+
+    fn handle_turn_item_completed(&self, ev: &protocol::ItemCompletedEvent) -> Vec<ThreadEvent> {
+        self.thread_item_from_turn_item(&ev.item)
+            .map(|item| vec![ThreadEvent::ItemCompleted(ItemCompletedEvent { item })])
+            .unwrap_or_default()
     }
 
     fn handle_collab_spawn_begin(&mut self, ev: &CollabAgentSpawnBeginEvent) -> Vec<ThreadEvent> {
@@ -876,5 +908,75 @@ impl EventProcessor for EventProcessorWithJsonOutput {
             protocol::EventMsg::ShutdownComplete => CodexStatus::Shutdown,
             _ => CodexStatus::Running,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use codex_protocol::items::ReasoningItem as ProtocolReasoningItem;
+    use codex_protocol::protocol::Event;
+    use codex_protocol::ThreadId;
+
+    #[test]
+    fn forwards_generic_reasoning_item_started_events() {
+        let mut processor = EventProcessorWithJsonOutput::new(None);
+        let event = Event {
+            id: "evt".to_string(),
+            msg: protocol::EventMsg::ItemStarted(protocol::ItemStartedEvent {
+                thread_id: ThreadId::new(),
+                turn_id: "turn".to_string(),
+                item: ProtocolTurnItem::Reasoning(ProtocolReasoningItem {
+                    id: "rs_1".to_string(),
+                    summary_text: Vec::new(),
+                    raw_content: Vec::new(),
+                }),
+            }),
+        };
+
+        let events = processor.collect_thread_events(&event);
+
+        assert_eq!(
+            events,
+            vec![ThreadEvent::ItemStarted(ItemStartedEvent {
+                item: ThreadItem {
+                    id: "rs_1".to_string(),
+                    details: ThreadItemDetails::Reasoning(ReasoningItem {
+                        text: String::new(),
+                    }),
+                },
+            })]
+        );
+    }
+
+    #[test]
+    fn forwards_generic_reasoning_item_completed_events() {
+        let mut processor = EventProcessorWithJsonOutput::new(None);
+        let event = Event {
+            id: "evt".to_string(),
+            msg: protocol::EventMsg::ItemCompleted(protocol::ItemCompletedEvent {
+                thread_id: ThreadId::new(),
+                turn_id: "turn".to_string(),
+                item: ProtocolTurnItem::Reasoning(ProtocolReasoningItem {
+                    id: "rs_2".to_string(),
+                    summary_text: vec!["step one".to_string(), "step two".to_string()],
+                    raw_content: Vec::new(),
+                }),
+            }),
+        };
+
+        let events = processor.collect_thread_events(&event);
+
+        assert_eq!(
+            events,
+            vec![ThreadEvent::ItemCompleted(ItemCompletedEvent {
+                item: ThreadItem {
+                    id: "rs_2".to_string(),
+                    details: ThreadItemDetails::Reasoning(ReasoningItem {
+                        text: "step one\nstep two".to_string(),
+                    }),
+                },
+            })]
+        );
     }
 }
