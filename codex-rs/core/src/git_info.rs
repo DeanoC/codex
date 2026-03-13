@@ -629,11 +629,16 @@ pub fn resolve_root_git_project_for_trust(cwd: &Path) -> Option<PathBuf> {
 
 fn find_ancestor_git_entry(base_dir: &Path) -> Option<(PathBuf, PathBuf)> {
     let mut dir = base_dir.to_path_buf();
+    let ceilings = git_ceiling_directories();
 
     loop {
         let dot_git = dir.join(".git");
         if dot_git.exists() {
             return Some((dir, dot_git));
+        }
+
+        if ceilings.iter().any(|ceiling| same_path(&dir, ceiling)) {
+            break;
         }
 
         // Pop one component (go up one directory). `pop` returns false when
@@ -644,6 +649,22 @@ fn find_ancestor_git_entry(base_dir: &Path) -> Option<(PathBuf, PathBuf)> {
     }
 
     None
+}
+
+fn git_ceiling_directories() -> Vec<PathBuf> {
+    let raw = std::env::var("GIT_CEILING_DIRECTORIES").unwrap_or_default();
+    if raw.trim().is_empty() {
+        return Vec::new();
+    }
+
+    std::env::split_paths(&raw)
+        .filter(|path| !path.as_os_str().is_empty())
+        .map(canonicalize_or_raw)
+        .collect()
+}
+
+fn same_path(left: &Path, right: &Path) -> bool {
+    canonicalize_or_raw(left.to_path_buf()) == canonicalize_or_raw(right.to_path_buf())
 }
 
 fn canonicalize_or_raw(path: PathBuf) -> PathBuf {
@@ -1118,6 +1139,24 @@ mod tests {
     fn resolve_root_git_project_for_trust_returns_none_outside_repo() {
         let tmp = TempDir::new().expect("tempdir");
         assert!(resolve_root_git_project_for_trust(tmp.path()).is_none());
+    }
+
+    #[test]
+    fn resolve_root_git_project_for_trust_stops_at_git_ceiling_directories() {
+        let tmp = TempDir::new().expect("tempdir");
+        let root = tmp.path().join("workspace");
+        let nested = root.join("nested").join("deeper");
+        std::fs::create_dir_all(&nested).unwrap();
+
+        unsafe {
+            std::env::set_var("GIT_CEILING_DIRECTORIES", root.as_os_str());
+        }
+        let result = resolve_root_git_project_for_trust(&nested);
+        unsafe {
+            std::env::remove_var("GIT_CEILING_DIRECTORIES");
+        }
+
+        assert!(result.is_none());
     }
 
     #[tokio::test]

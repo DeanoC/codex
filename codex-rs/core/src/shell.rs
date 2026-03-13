@@ -285,8 +285,25 @@ pub fn get_shell(shell_type: ShellType, path: Option<&PathBuf>) -> Option<Shell>
     }
 }
 
+fn shell_from_explicit_env_path(shell_path: Option<PathBuf>) -> Option<Shell> {
+    let shell_path = shell_path.and_then(|path| file_exists(&path))?;
+    let shell_type = detect_shell_type(&shell_path).unwrap_or_else(|| {
+        if cfg!(windows) {
+            ShellType::Cmd
+        } else {
+            ShellType::Sh
+        }
+    });
+    Some(Shell {
+        shell_type,
+        shell_path,
+        shell_snapshot: empty_shell_snapshot_receiver(),
+    })
+}
+
 pub fn default_user_shell() -> Shell {
-    default_user_shell_from_path(get_user_shell_path())
+    shell_from_explicit_env_path(std::env::var_os("SHELL").map(PathBuf::from))
+        .unwrap_or_else(|| default_user_shell_from_path(get_user_shell_path()))
 }
 
 fn default_user_shell_from_path(user_shell_path: Option<PathBuf>) -> Shell {
@@ -549,5 +566,23 @@ mod tests {
         let shell_path = powershell_shell.shell_path;
 
         assert!(shell_path.ends_with("pwsh.exe") || shell_path.ends_with("powershell.exe"));
+    }
+
+    #[test]
+    fn explicit_shell_env_override_uses_exact_path() {
+        let tempdir = tempfile::tempdir().unwrap();
+        let shell_path = tempdir.path().join("spiderweb-terminal-shell");
+        std::fs::write(&shell_path, "#!/bin/sh\nexit 0\n").unwrap();
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            let mut perms = std::fs::metadata(&shell_path).unwrap().permissions();
+            perms.set_mode(0o755);
+            std::fs::set_permissions(&shell_path, perms).unwrap();
+        }
+
+        let shell = shell_from_explicit_env_path(Some(shell_path.clone())).unwrap();
+        assert_eq!(shell.shell_path, shell_path);
+        assert_eq!(shell.shell_type, ShellType::Sh);
     }
 }
